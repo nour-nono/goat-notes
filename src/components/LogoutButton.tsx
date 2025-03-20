@@ -4,14 +4,14 @@ import { Button } from "./ui/button"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { logOutAction } from "@/actions/users";
 
-function LogoutButton() {
+function LogOutButton() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const handleLogOut = async () => {
         setLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const errorMessages = null;
+        const errorMessages = (await logOutAction()).errorMessage;
         if (!errorMessages) {
             toast.success('Logged out',{
                 description: "You have been logged out successfully",
@@ -31,4 +31,4 @@ function LogoutButton() {
   )
 }
 
-export default LogoutButton;
+export default LogOutButton;

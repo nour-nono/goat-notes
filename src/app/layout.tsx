@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/providers/theme-provider"
+import { ThemeProvider } from "@/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner"
+
 import "@/styles/globals.css";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,18 +16,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"  suppressHydrationWarning>
-      <body
-        className={`antialiased`}
-      >
-                  <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+    <html lang="en" suppressHydrationWarning>
+      <body className={`antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
           >
+        <div className="flex min-h-screen w-full flex-col">
+        <Header/>
+        <main className="flex flex-col flex-1 px-4 pt-8 xl:px-8">
           {children}
-          </ThemeProvider>
+        </main>
+        </div>
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );

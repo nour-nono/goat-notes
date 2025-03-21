@@ -71,12 +71,11 @@ export async function updateSession(request: NextRequest) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-
-    if (user) {
-      const { newestNoteId } = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}`,
-      ).then((res) => res.json());
-
+    
+      if (user) {
+          const {newestNoteId} = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}`,
+            ).then((res) => res.json());
       if (newestNoteId) {
         const url = request.nextUrl.clone();
         url.searchParams.set("noteId", newestNoteId);

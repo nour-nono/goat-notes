@@ -3,7 +3,7 @@ import Image from "next/image";
 import { shadow } from "@/styles/utils";
 import { Button } from "./ui/button";
 import DarkModeToggle from "./DarkModeToggle";
-import LogOutButton from "./LogOutButton";
+import LogOutButton from "@/components/LogOutButton";
 import { getUser } from "@/app/auth/server";
 import { SidebarTrigger } from "./ui/sidebar";
 

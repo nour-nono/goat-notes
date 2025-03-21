@@ -1,0 +1,1 @@
+export const depounceTimeout = 1000;

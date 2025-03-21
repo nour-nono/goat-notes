@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 import "@/styles/globals.css";
 import Header from "@/components/Header";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/AppSidebar";
+import NoteProvider from "@/providers/NoteProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,14 +26,20 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          >
-        <div className="flex min-h-screen w-full flex-col">
-        <Header/>
-        <main className="flex flex-col flex-1 px-4 pt-8 xl:px-8">
-          {children}
-        </main>
-        </div>
-          <Toaster richColors />
+        >
+          <NoteProvider>
+            <SidebarProvider>
+              <AppSidebar />
+
+              <div className="flex min-h-screen w-full flex-col">
+                <Header />
+                <main className="flex flex-1 flex-col px-4 pt-8 xl:px-8">
+                  {children}
+                </main>
+              </div>
+            </SidebarProvider>
+            <Toaster richColors />
+          </NoteProvider>
         </ThemeProvider>
       </body>
     </html>

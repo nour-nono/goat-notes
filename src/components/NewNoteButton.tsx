@@ -31,8 +31,8 @@ function NewNoteButton( { user }: Props ) {
     return (
     <Button
       onClick={handleClickNewNoteButton}
-      variant={"secondary"}
-      className="fixed bottom-4 right-4"
+      variant="secondary"
+      className="w-24"
       disabled={loading}
     >
       {loading ? <Loader2 className="animate-spin"/> : "New Note"}

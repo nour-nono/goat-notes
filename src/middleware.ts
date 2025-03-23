@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { User } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
@@ -10,6 +11,19 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
+
+async function createUser(user: User ) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/create-user?userId=${user.id}&email=${user.email}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  ).then((res) => res.json());
+  return res;
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -53,6 +67,7 @@ export async function updateSession(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     if (user) {
+      const res = createUser(user);
       return NextResponse.redirect(
         new URL("/", process.env.NEXT_PUBLIC_BASE_URL),
       );
@@ -60,6 +75,16 @@ export async function updateSession(request: NextRequest) {
   }
 
   const { searchParams, pathname } = new URL(request.url);
+  if (searchParams.get("code")) {
+    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    
+    if (user) {
+      const res = createUser(user);
+    }
+  }
 
   if (!searchParams.get("noteId") && pathname === "/") {
     const {
@@ -67,6 +92,8 @@ export async function updateSession(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (user) {
+      const res = createUser(user);
+      console.log(`#################\n noteId \n#################\n`);
       const { newestNoteId } = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}&email=${user.email}`,
       ).then((res) => res.json());
@@ -76,6 +103,7 @@ export async function updateSession(request: NextRequest) {
         url.searchParams.set("noteId", newestNoteId);
         return NextResponse.redirect(url);
       } else {
+
         const { noteId } = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/create-new-note?userId=${user.id}`,
           {

@@ -49,10 +49,6 @@ function AuthForm({ type }: Props) {
   };
   const googleSignIn = async () => {
     const { url, errorMessage } = await signInWithGoogle();
-
-    toast.success("Sign In Successful", {
-      description: "You have been signed in successfully",
-    });
     if (url) {
       router.replace(url);
     }

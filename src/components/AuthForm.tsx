@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { loginAction, signUpAction } from "@/actions/users";
+import { loginAction, signInWithGoogle, signUpAction } from "@/actions/users";
 
 type Props = {
   type: "login" | "signUp";
@@ -45,7 +45,22 @@ function AuthForm({ type }: Props) {
         toast.success(title, { description });
         router.replace("/");
       }
-    })
+    });
+  };
+  const googleSignIn = async () => {
+    const { url, errorMessage } = await signInWithGoogle();
+
+    toast.success("Sign In Successful", {
+      description: "You have been signed in successfully",
+    });
+    if (url) {
+      router.replace(url);
+    }
+    if (errorMessage) {
+      toast.error("Sign In Failed", {
+        description: "An error occurred while signing in",
+      });
+    }
   };
   return (
     <form action={handleSubmit}>
@@ -93,6 +108,15 @@ function AuthForm({ type }: Props) {
           </Link>
         </p>
       </CardFooter>
+      <CardContent className="mt-4">
+        <Button
+          className="mt-4 flex w-full justify-center"
+          type="button"
+          onClick={googleSignIn}
+        >
+          Sign in with Google
+        </Button>
+      </CardContent>
     </form>
   );
 }

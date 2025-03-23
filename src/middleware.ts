@@ -68,7 +68,7 @@ export async function updateSession(request: NextRequest) {
 
     if (user) {
       const { newestNoteId } = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}&email=${user.email}`,
       ).then((res) => res.json());
 
       if (newestNoteId) {

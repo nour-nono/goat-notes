@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { loginAction, signInWithGoogle, signUpAction } from "@/actions/users";
+import { loginAction, signInWithGoogle, signInWithLinkedIn, signUpAction } from "@/actions/users";
 
 type Props = {
   type: "login" | "signUp";
@@ -58,6 +58,18 @@ function AuthForm({ type }: Props) {
       });
     }
   };
+  const linkedinSignIn = async () => {
+    const { url, errorMessage } = await signInWithLinkedIn();
+    if (url) {
+      router.replace(url);
+    }
+    if (errorMessage) {
+      toast.error("Sign In Failed", {
+        description: "An error occurred while signing in",
+      });
+    }
+  };
+
   return (
     <form action={handleSubmit}>
       <CardContent className="grid w-full items-center gap-4">
@@ -111,6 +123,13 @@ function AuthForm({ type }: Props) {
           onClick={googleSignIn}
         >
           Sign in with Google
+        </Button>
+        <Button
+          className="mt-4 flex w-full justify-center"
+          type="button"
+          onClick={linkedinSignIn}
+        >
+          Sign in with LinkedIn
         </Button>
       </CardContent>
     </form>

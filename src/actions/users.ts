@@ -3,6 +3,7 @@
 import { createClient } from "@/app/auth/server";
 import { prisma } from "@/db/prisma";
 import { handleError } from "@/lib/utils";
+import { Provider } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 
 export const loginAction = async (email: string, password: string) => {
@@ -52,12 +53,13 @@ export const signUpAction = async (email: string, password: string) => {
   }
 };
 
-export const signInWithGoogle: () => Promise<{ errorMessage: string | null, url?: string }> = async () => {
+
+const signInWithProvider: (provider:Provider) => Promise<{ errorMessage: string | null, url?: string }> = async (provider) => {
   try {
     const { auth } = await createClient();
     const auth_callback_url = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`;
     const { data, error } = await auth.signInWithOAuth({
-      provider: "google",
+      provider: provider,
       options: {
         redirectTo: auth_callback_url,
         queryParams: {
@@ -84,3 +86,6 @@ export const signInWithGoogle: () => Promise<{ errorMessage: string | null, url?
     return handleError(error);
   }
 };
+
+export const signInWithGoogle = (provider:Provider='google') => signInWithProvider(provider);
+export const signInWithLinkedIn = (provider:Provider='linkedin_oidc') => signInWithProvider(provider);

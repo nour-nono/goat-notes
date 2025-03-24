@@ -70,13 +70,15 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={handleDeleteNote}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 w-24"
-          >
-            {isPending ? <Loader2 className="animate-spin" /> : "Delete"}
-          </AlertDialogAction>
+            <div className="flex w-full gap-4">
+            <AlertDialogCancel className="flex-1">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteNote}
+              className="flex-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isPending ? <Loader2 className="animate-spin" /> : "Delete"}
+            </AlertDialogAction>
+            </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

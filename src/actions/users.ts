@@ -54,7 +54,7 @@ export const signUpAction = async (email: string, password: string) => {
 };
 
 
-const signInWithProvider: (provider:Provider) => Promise<{ errorMessage: string | null, url?: string }> = async (provider) => {
+const signInWithProvider: (provider:Provider) => () => Promise<{ errorMessage: string | null, url?: string }> = provider => async () => {
   try {
     const { auth } = await createClient();
     const auth_callback_url = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`;
@@ -87,5 +87,5 @@ const signInWithProvider: (provider:Provider) => Promise<{ errorMessage: string 
   }
 };
 
-export const signInWithGoogle = (provider:Provider='google') => signInWithProvider(provider);
-export const signInWithLinkedIn = (provider:Provider='linkedin_oidc') => signInWithProvider(provider);
+export const signInWithGoogle = signInWithProvider('google');
+export const signInWithLinkedIn = signInWithProvider('linkedin_oidc');

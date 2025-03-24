@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@supabase/supabase-js";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { Fragment, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
@@ -18,9 +18,9 @@ import { askAIAboutNotesAction } from "@/actions/notes";
 import "@/styles/ai-response.css";
 
 type Props = {
-    user: User | null;
-}
-function AskAIButton( { user }: Props ) {
+  user: User | null;
+};
+function AskAIButton({ user }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
@@ -137,7 +137,10 @@ function AskAIButton( { user }: Props ) {
             value={questionText}
             onChange={(e) => setQuestionText(e.target.value)}
           />
-          <Button className="ml-auto size-8 rounded-full">
+          <Button
+            className="ml-auto size-8 rounded-full"
+            onClick={handleSubmit}
+          >
             <ArrowUpIcon className="text-background" />
           </Button>
         </div>
@@ -146,4 +149,4 @@ function AskAIButton( { user }: Props ) {
   );
 }
 
-export default AskAIButton
+export default AskAIButton;

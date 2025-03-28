@@ -30,11 +30,18 @@ async function Header() {
       </Link>
       <div className="flex gap-4">
         {user ? (
+          <>
+          <Button asChild value="outline">
+            <Link href="/dashboard">
+              Dashboard
+            </Link>
+          </Button>
           <LogOutButton />
+          </>
         ) : (
           <>
             <Button asChild>
-              <Link href="/sign-up" className="hidden sm:block">
+              <Link href="/sign-up">
                 Sign Up
               </Link>
             </Button>
